@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap" id="wrap">
+		<ul id="ulist">
+			<li>F1</li>
+			<li>F2</li>
+			<li>F3</li>
+			<li>F4</li>
+			<li>F5</li>
+			<li>F6</li>
+		</ul>
+		<div class="top" id="up">
+			∧
+		</div>	
+	</div>
+	<div class="floor" id="floor">
+			<div class="F1" style="height:800px">F1</div>
+			<div class="F2" style="height:500px">F2</div>
+			<div class="F3" style="height:600px">F3</div>
+			<div class="F4" style="height:800px">F4</div>
+			<div class="F5" style="height:700px">F5</div>
+			<div class="F6" style="height:600px">F6</div>
+</div>	
+<script>
+	   
+
+
+    function Floor(){
+    	this.init();
+    	this.Add();
+    	this.Scroll();
+    	this.Click();
+    }
+    Floor.prototype={
+    	constructor:Floor,
+    	init:function(){
+            this.wrap=document.getElementById('wrap');
+	        this.floor=document.getElementById('floor');
+	        this.dvs=floor.getElementsByTagName('div');
+	        this.ulist=document.getElementById('ulist');
+	        this.lis=ulist.getElementsByTagName('li')
+	        this.arr=[];
+	        this.up=document.getElementById('up');
+    	},
+    	Add:function(){
+    		for(var i=0;i<this.dvs.length;i++){
+	           this.arr.push(this.dvs[i].offsetTop)
+	        }
+	        console.log(this.arr);
+    	},
+    	Scroll:function(){
+    		var that=this;
+    		window.onscroll=function(){
+				var top=document.documentElement.scrollTop||document.body.scrollTop;
+				var vieh=document.documentElement.clientHeight||document.body.clientHeight;
+				top=parseInt(vieh/2)+top;
+				if(top>=300){
+	               that.wrap.style.display='block';
+				}else{
+					that.wrap.style.display='none';
+				}
+				for(var i=0;i<that.arr.length;i++){
+					if(top>=that.arr[i]){
+						for(var j=0;j<that.arr.length;j++){
+							that.lis[j].style.marginLeft='100px'
+						}
+	                   that.lis[i].style.marginLeft="30px"
+					}
+				}
+				
+			}
+    	},
+    	Click:function(){
+    		var that=this;
+    		this.up.onclick=function(){
+				document.documentElement.scrollTop=that.arr[0];
+				document.body.scrollTop=that.arr[0];
+			}
+
+			for(var n=0;n<that.lis.length;n++){
+				that.lis[n].index=n;
+				that.lis[n].onclick=function(){
+			        document.documentElement.scrollTop=that.arr[this.index];//点击右侧栏目显示当前楼层
+	                document.body.scrollTop=that.arr[this.index];
+				}
+			}
+    	}
+
+    }
+    new Floor();
+        
+        
+		
+		
+</script>
+</body>
+</html>
